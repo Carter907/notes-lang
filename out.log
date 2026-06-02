@@ -1,0 +1,37 @@
+PARSE: ///>set greetings has<///
+
+PARSE: ///>set greetings has<///
+
+PARSE: ///>set greetings has
+hi
+hello<///
+
+PARSE: ///>exit<///
+
+PARSE: ///>set greetings has<///
+
+PARSE: ///>set hi has<///
+
+PARSE: ///>set w has<///
+
+PARSE: ///>set w   h<///
+
+PARSE: ///>set w<///
+
+PARSE: ///>set w <///
+
+PARSE: ///>set w  <///
+
+PARSE: ///>set w       <///
+
+PARSE: ///>set w      h<///
+
+PARSE: ///>vim src/lang.txt<///
+
+PARSE: ///>exit<///
+
+PARSE: ///>set greetings has<///
+
+PARSE: ///>set greetings has
+hi<///
+
