@@ -1,4 +1,4 @@
-#include "mpc.h"
+#include "parser.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +19,7 @@ char *readline(char *prompt) {
 void add_history(char *unused) {}
 
 #else
-#include <editline/history.h>
+// On some systems (like Arch), history functions are included in readline.h
 #include <editline/readline.h>
 #endif
 
@@ -40,13 +40,8 @@ int needs_continuation(const char *str) {
 
 int main(int argc, char **argv) {
 
-  /* Create Some Parsers */
-  mpc_parser_t *setP = mpc_new("set");
-  // mpc_parser_t *identP = mpc_new("identifier");
-  mpc_parser_t *notesP = mpc_new("notes");
-
-  /* Context-free grammar is stored in src/lang.txt file */
-  mpca_lang_contents(MPCA_LANG_DEFAULT, "src/lang.txt", setP, notesP);
+  /* Initialize our parsers */
+  parser_init();
 
   char *line = NULL;
   char *buffer = NULL;
@@ -56,7 +51,7 @@ int main(int argc, char **argv) {
 
   while (1) {
     // 1. Read the initial line
-    line = readline("notes> ");
+    line = readline("love-mind> ");
 
     // Handle EOF (Ctrl+D)
     if (!line) {
@@ -98,27 +93,16 @@ int main(int argc, char **argv) {
     if (strlen(buffer) > 0) {
       add_history(buffer);
 
-      mpc_result_t r;
-
       fprintf(fp, "PARSE: ///>%s<///\n\n", buffer);
-      // FIX: Changed 'line' to 'buffer'
-      if (mpc_parse("<stdin>", buffer, notesP, &r)) {
-        /* On success print and delete the AST */
-        mpc_ast_print(r.output);
-        mpc_ast_delete(r.output);
-      } else {
-        /* Otherwise print and delete the Error */
-        mpc_err_print(r.error);
-        mpc_err_delete(r.error);
-      }
+      parse_and_print(buffer);
     }
 
     free(buffer);
   }
 
   fclose(fp);
-  /* Undefine and delete our parsers */
-  mpc_cleanup(2, setP, notesP);
+  /* Cleanup */
+  parser_cleanup();
 
   return 0;
 }

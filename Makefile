@@ -3,7 +3,7 @@ SHELL=/usr/bin/bash
 CC = gcc
 CD = gdb
 
-PROG_NAME = app
+PROG_NAME = love-mind
 
 # dirs
 LIB_DIR = ./lib
@@ -12,14 +12,14 @@ BUILD_DIR = ./target
 TEST_DIR = ./tests
 
 # sources
-CLIENT_SRC = main.c
-SOURCES = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/**/*.c)
+LIB_SOURCES = $(wildcard $(LIB_DIR)/**/*.c $(LIB_DIR)/*.c)
+SOURCES = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/**/*.c) $(LIB_SOURCES)
 TEST_SOURCES = test.c
 
 VER = c23
 
 # flags
-BASE_CFLAGS = -std=$(VER) -g -Wall -Werror
+BASE_CFLAGS = -std=$(VER) -g -Wall -Werror -I$(LIB_DIR) -I$(SRC_DIR)
 CLIENT_CFLAGS= $(BASE_CFLAGS) -fsanitize=address,undefined,leak -fsanitize-trap=undefined
 CFLAGS = $(BASE_CFLAGS)
 

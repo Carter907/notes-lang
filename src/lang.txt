@@ -1,2 +1,0 @@
-set			: /(set)\s[a-zA-Z]+\s(has)\n(\s*\w+\s*)+/ ;
-notes		: /^/ <set> /$/ ;
